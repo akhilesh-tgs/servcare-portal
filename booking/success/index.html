@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Payment Successful - Servcare</title>
+  <link rel="stylesheet" href="../../style.css" />
+  <style>
+    .result-page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--light-bg);
+      padding: 40px 20px;
+    }
+    .result-card {
+      background: var(--white);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      padding: 48px 40px;
+      max-width: 460px;
+      width: 100%;
+      text-align: center;
+    }
+    .result-logo { display: flex; justify-content: center; margin-bottom: 28px; }
+    .result-icon {
+      width: 76px;
+      height: 76px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      background: #e6f9ee;
+      color: #1fa855;
+    }
+    .result-card h1 {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 14px;
+    }
+    .result-card p {
+      color: var(--text-light);
+      font-size: 15px;
+      line-height: 1.65;
+      margin-bottom: 10px;
+    }
+    .result-ref {
+      display: none;
+      background: var(--light-bg);
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-size: 13px;
+      color: var(--navy);
+      font-weight: 600;
+      margin: 6px 0 22px;
+    }
+    .result-actions { margin-top: 20px; }
+  </style>
+</head>
+<body>
+
+  <div class="result-page">
+    <div class="result-card">
+      <div class="result-logo">
+        <a href="../../index.html" class="logo-badge">
+          <div class="logo-oval">
+            <span class="logo-oval-text">SERVCARE</span>
+            <span class="logo-oval-sub">Services Pte Ltd</span>
+          </div>
+          <span class="logo-tagline">We Serve with Care</span>
+        </a>
+      </div>
+
+      <div class="result-icon">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      </div>
+
+      <h1>Payment Successful!</h1>
+      <p>Thank you — your booking has been confirmed and your payment was received.</p>
+      <p id="refLine" class="result-ref"></p>
+      <p>Please return to your chat conversation with our Service Agent — we'll confirm your appointment details there shortly.</p>
+
+      <div class="result-actions">
+        <a href="../../index.html" class="btn btn-primary btn-full">Back to Servcare</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var params = new URLSearchParams(window.location.search);
+    var ref = params.get('lead') || params.get('sa');
+    if (ref) {
+      var refLine = document.getElementById('refLine');
+      refLine.textContent = 'Reference: ' + ref;
+      refLine.style.display = 'inline-block';
+    }
+  </script>
+
+</body>
+</html>

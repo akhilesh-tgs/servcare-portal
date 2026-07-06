@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Payment Not Completed - Servcare</title>
+  <link rel="stylesheet" href="../../style.css" />
+  <style>
+    .result-page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--light-bg);
+      padding: 40px 20px;
+    }
+    .result-card {
+      background: var(--white);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      padding: 48px 40px;
+      max-width: 460px;
+      width: 100%;
+      text-align: center;
+    }
+    .result-logo { display: flex; justify-content: center; margin-bottom: 28px; }
+    .result-icon {
+      width: 76px;
+      height: 76px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      background: #fdeaea;
+      color: #e0483e;
+    }
+    .result-card h1 {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 14px;
+    }
+    .result-card p {
+      color: var(--text-light);
+      font-size: 15px;
+      line-height: 1.65;
+      margin-bottom: 10px;
+    }
+    .result-ref {
+      display: none;
+      background: var(--light-bg);
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-size: 13px;
+      color: var(--navy);
+      font-weight: 600;
+      margin: 6px 0 22px;
+    }
+    .result-actions {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .result-contact {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      font-size: 13.5px;
+    }
+    .result-contact a { color: var(--accent); font-weight: 600; }
+  </style>
+</head>
+<body>
+
+  <div class="result-page">
+    <div class="result-card">
+      <div class="result-logo">
+        <a href="../../index.html" class="logo-badge">
+          <div class="logo-oval">
+            <span class="logo-oval-text">SERVCARE</span>
+            <span class="logo-oval-sub">Services Pte Ltd</span>
+          </div>
+          <span class="logo-tagline">We Serve with Care</span>
+        </a>
+      </div>
+
+      <div class="result-icon">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </div>
+
+      <h1>Payment Not Completed</h1>
+      <p>Your payment was cancelled or did not go through. No charges were made to your card.</p>
+      <p id="refLine" class="result-ref"></p>
+      <p>Please return to your chat conversation with our Service Agent to request a new payment link and try again.</p>
+
+      <div class="result-actions">
+        <a href="../../index.html" class="btn btn-primary btn-full">Back to Servcare</a>
+      </div>
+
+      <div class="result-contact">
+        Need help? Call us at <a href="tel:+6562656868">+65 6265 6868</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var params = new URLSearchParams(window.location.search);
+    var ref = params.get('lead') || params.get('sa');
+    if (ref) {
+      var refLine = document.getElementById('refLine');
+      refLine.textContent = 'Reference: ' + ref;
+      refLine.style.display = 'inline-block';
+    }
+  </script>
+
+</body>
+</html>
