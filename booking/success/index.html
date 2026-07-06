@@ -67,6 +67,28 @@
     .booking-details .detail-label { color: var(--text-light); font-weight: 500; }
     .booking-details .detail-value { color: var(--navy); font-weight: 700; text-align: right; }
     .result-actions { margin-top: 20px; }
+    .details-loader {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: var(--light-bg);
+      border-radius: 10px;
+      padding: 24px 20px;
+      margin: 20px 0;
+      color: var(--text-light);
+      font-size: 14px;
+    }
+    .spinner {
+      width: 16px;
+      height: 16px;
+      border: 2px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      flex-shrink: 0;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
   </style>
 </head>
 <body>
@@ -91,6 +113,11 @@
 
       <h1>Payment Successful!</h1>
       <p>Thank you<span id="thankName"></span> — your booking has been confirmed and your payment was received.</p>
+
+      <div id="detailsLoader" class="details-loader" style="display:none;">
+        <span class="spinner"></span>
+        <span>Loading your booking details…</span>
+      </div>
 
       <div id="bookingDetails" class="booking-details">
         <div class="detail-row" id="rowName" style="display:none;">
@@ -140,6 +167,8 @@
     // booking details are resolved server-side and fetched here, rather
     // than exposed as plain-text query parameters.
     if (sessionId && sessionId.indexOf('{') === -1) {
+      document.getElementById('detailsLoader').style.display = 'flex';
+
       fetch(LOOKUP_ENDPOINT + '?session_id=' + encodeURIComponent(sessionId))
         .then(function (r) { return r.json(); })
         .then(function (data) {
@@ -163,7 +192,10 @@
             link.style.display = 'block';
           }
         })
-        .catch(function (err) { console.error('Booking details lookup failed', err); });
+        .catch(function (err) { console.error('Booking details lookup failed', err); })
+        .finally(function () {
+          document.getElementById('detailsLoader').style.display = 'none';
+        });
     }
   </script>
 
