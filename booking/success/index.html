@@ -118,19 +118,23 @@
       <p>Please return to your chat conversation with our Service Agent — we'll confirm your appointment details there shortly.</p>
 
       <div class="result-actions">
+        <a id="receiptLink" href="#" target="_blank" rel="noopener" class="btn btn-white btn-full" style="display:none; border:1.5px solid var(--border); margin-bottom:12px;">View Receipt &amp; Invoice</a>
         <a href="../../index.html" class="btn btn-primary btn-full">Back to Servcare</a>
       </div>
     </div>
   </div>
 
   <script>
+    var RECEIPT_LOOKUP_ENDPOINT = 'https://servcare--partial.sandbox.my.salesforce.com/services/apexrest/servcare/stripe/receipt';
+
     var params = new URLSearchParams(window.location.search);
-    var ref      = params.get('lead') || params.get('sa');
-    var name     = params.get('name');
-    var service  = params.get('service');
-    var appt     = params.get('appt');
-    var amount   = params.get('amount');
-    var currency = params.get('currency');
+    var ref       = params.get('lead') || params.get('sa');
+    var name      = params.get('name');
+    var service   = params.get('service');
+    var appt      = params.get('appt');
+    var amount    = params.get('amount');
+    var currency  = params.get('currency');
+    var sessionId = params.get('session_id');
 
     function showRow(rowId, valId, value) {
       document.getElementById(valId).textContent = value;
@@ -152,6 +156,19 @@
       }
     }
     if (ref) showRow('rowRef', 'valRef', ref);
+
+    if (sessionId && sessionId.indexOf('{') === -1) {
+      fetch(RECEIPT_LOOKUP_ENDPOINT + '?session_id=' + encodeURIComponent(sessionId))
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          if (data && data.receiptUrl) {
+            var link = document.getElementById('receiptLink');
+            link.href = data.receiptUrl;
+            link.style.display = 'block';
+          }
+        })
+        .catch(function (err) { console.error('Receipt lookup failed', err); });
+    }
   </script>
 
 </body>
