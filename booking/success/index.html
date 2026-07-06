@@ -115,7 +115,7 @@
         </div>
       </div>
 
-      <p>Please return to your chat conversation with our Service Agent — we'll confirm your appointment details there shortly.</p>
+      <p>Thank you for your payment. A member of our team will be in touch shortly to confirm your appointment details.</p>
 
       <div class="result-actions">
         <a id="receiptLink" href="#" target="_blank" rel="noopener" class="btn btn-white btn-full" style="display:none; border:1.5px solid var(--border); margin-bottom:12px;">View Receipt &amp; Invoice</a>
@@ -125,7 +125,7 @@
   </div>
 
   <script>
-    var RECEIPT_LOOKUP_ENDPOINT = 'https://servcare--partial.sandbox.my.salesforce.com/services/apexrest/servcare/stripe/receipt';
+    var RECEIPT_LOOKUP_ENDPOINT = 'https://servcare--partial.sandbox.my.salesforce-sites.com/webhook/services/apexrest/servcare/stripe/receipt';
 
     var params = new URLSearchParams(window.location.search);
     var ref       = params.get('lead') || params.get('sa');
