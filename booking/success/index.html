@@ -152,7 +152,8 @@
   </div>
 
   <script>
-    var LOOKUP_ENDPOINT = 'https://servcare--partial.sandbox.my.salesforce-sites.com/webhook/services/apexrest/servcare/stripe/receipt';
+    var LOOKUP_ENDPOINT   = 'https://servcare--partial.sandbox.my.salesforce-sites.com/webhook/services/apexrest/servcare/stripe/receipt';
+    var REDIRECT_ENDPOINT = 'https://servcare--partial.sandbox.my.salesforce-sites.com/webhook/services/apexrest/servcare/stripe/receipt/redirect';
 
     var params    = new URLSearchParams(window.location.search);
     var sessionId = params.get('session_id');
@@ -186,9 +187,12 @@
           }
           if (data.reference) showRow('rowRef', 'valRef', data.reference);
 
-          if (data.receiptUrl) {
+          if (data.hasReceipt) {
+            // The real Stripe URL is never present in this page's HTML —
+            // it's resolved server-side, only at the moment of click, by
+            // the redirect endpoint.
             var link = document.getElementById('receiptLink');
-            link.href = data.receiptUrl;
+            link.href = REDIRECT_ENDPOINT + '?session_id=' + encodeURIComponent(sessionId);
             link.style.display = 'block';
           }
         })
