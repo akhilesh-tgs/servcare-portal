@@ -125,15 +125,9 @@
   </div>
 
   <script>
-    var RECEIPT_LOOKUP_ENDPOINT = 'https://servcare--partial.sandbox.my.salesforce-sites.com/webhook/services/apexrest/servcare/stripe/receipt';
+    var LOOKUP_ENDPOINT = 'https://servcare--partial.sandbox.my.salesforce-sites.com/webhook/services/apexrest/servcare/stripe/receipt';
 
-    var params = new URLSearchParams(window.location.search);
-    var ref       = params.get('lead') || params.get('sa');
-    var name      = params.get('name');
-    var service   = params.get('service');
-    var appt      = params.get('appt');
-    var amount    = params.get('amount');
-    var currency  = params.get('currency');
+    var params    = new URLSearchParams(window.location.search);
     var sessionId = params.get('session_id');
 
     function showRow(rowId, valId, value) {
@@ -142,32 +136,34 @@
       document.getElementById('bookingDetails').style.display = 'block';
     }
 
-    if (name) {
-      document.getElementById('thankName').textContent = ', ' + name;
-      showRow('rowName', 'valName', name);
-    }
-    if (service) showRow('rowService', 'valService', service);
-    if (appt)    showRow('rowAppt', 'valAppt', appt);
-    if (amount) {
-      var cents = parseInt(amount, 10);
-      if (!isNaN(cents)) {
-        var formatted = (cents / 100).toFixed(2) + ' ' + (currency ? currency.toUpperCase() : '');
-        showRow('rowAmount', 'valAmount', formatted.trim());
-      }
-    }
-    if (ref) showRow('rowRef', 'valRef', ref);
-
+    // Nothing but the opaque Stripe session id travels in this URL — all
+    // booking details are resolved server-side and fetched here, rather
+    // than exposed as plain-text query parameters.
     if (sessionId && sessionId.indexOf('{') === -1) {
-      fetch(RECEIPT_LOOKUP_ENDPOINT + '?session_id=' + encodeURIComponent(sessionId))
+      fetch(LOOKUP_ENDPOINT + '?session_id=' + encodeURIComponent(sessionId))
         .then(function (r) { return r.json(); })
         .then(function (data) {
-          if (data && data.receiptUrl) {
+          if (!data) return;
+
+          if (data.name) {
+            document.getElementById('thankName').textContent = ', ' + data.name;
+            showRow('rowName', 'valName', data.name);
+          }
+          if (data.service) showRow('rowService', 'valService', data.service);
+          if (data.appt)    showRow('rowAppt', 'valAppt', data.appt);
+          if (data.amount) {
+            var formatted = (data.amount / 100).toFixed(2) + ' ' + (data.currency ? data.currency.toUpperCase() : '');
+            showRow('rowAmount', 'valAmount', formatted.trim());
+          }
+          if (data.reference) showRow('rowRef', 'valRef', data.reference);
+
+          if (data.receiptUrl) {
             var link = document.getElementById('receiptLink');
             link.href = data.receiptUrl;
             link.style.display = 'block';
           }
         })
-        .catch(function (err) { console.error('Receipt lookup failed', err); });
+        .catch(function (err) { console.error('Booking details lookup failed', err); });
     }
   </script>
 
