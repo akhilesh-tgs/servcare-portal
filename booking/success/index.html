@@ -19,7 +19,7 @@
       border-radius: 16px;
       box-shadow: var(--shadow);
       padding: 48px 40px;
-      max-width: 460px;
+      max-width: 480px;
       width: 100%;
       text-align: center;
     }
@@ -47,16 +47,25 @@
       line-height: 1.65;
       margin-bottom: 10px;
     }
-    .result-ref {
+    .booking-details {
       display: none;
+      text-align: left;
       background: var(--light-bg);
-      border-radius: 8px;
-      padding: 8px 16px;
-      font-size: 13px;
-      color: var(--navy);
-      font-weight: 600;
-      margin: 6px 0 22px;
+      border-radius: 10px;
+      padding: 18px 20px;
+      margin: 20px 0;
     }
+    .booking-details .detail-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 7px 0;
+      font-size: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .booking-details .detail-row:last-child { border-bottom: none; }
+    .booking-details .detail-label { color: var(--text-light); font-weight: 500; }
+    .booking-details .detail-value { color: var(--navy); font-weight: 700; text-align: right; }
     .result-actions { margin-top: 20px; }
   </style>
 </head>
@@ -81,8 +90,31 @@
       </div>
 
       <h1>Payment Successful!</h1>
-      <p>Thank you — your booking has been confirmed and your payment was received.</p>
-      <p id="refLine" class="result-ref"></p>
+      <p>Thank you<span id="thankName"></span> — your booking has been confirmed and your payment was received.</p>
+
+      <div id="bookingDetails" class="booking-details">
+        <div class="detail-row" id="rowName" style="display:none;">
+          <span class="detail-label">Name</span>
+          <span class="detail-value" id="valName"></span>
+        </div>
+        <div class="detail-row" id="rowService" style="display:none;">
+          <span class="detail-label">Service</span>
+          <span class="detail-value" id="valService"></span>
+        </div>
+        <div class="detail-row" id="rowAppt" style="display:none;">
+          <span class="detail-label">Appointment</span>
+          <span class="detail-value" id="valAppt"></span>
+        </div>
+        <div class="detail-row" id="rowAmount" style="display:none;">
+          <span class="detail-label">Amount Paid</span>
+          <span class="detail-value" id="valAmount"></span>
+        </div>
+        <div class="detail-row" id="rowRef" style="display:none;">
+          <span class="detail-label">Reference</span>
+          <span class="detail-value" id="valRef"></span>
+        </div>
+      </div>
+
       <p>Please return to your chat conversation with our Service Agent — we'll confirm your appointment details there shortly.</p>
 
       <div class="result-actions">
@@ -93,12 +125,33 @@
 
   <script>
     var params = new URLSearchParams(window.location.search);
-    var ref = params.get('lead') || params.get('sa');
-    if (ref) {
-      var refLine = document.getElementById('refLine');
-      refLine.textContent = 'Reference: ' + ref;
-      refLine.style.display = 'inline-block';
+    var ref      = params.get('lead') || params.get('sa');
+    var name     = params.get('name');
+    var service  = params.get('service');
+    var appt     = params.get('appt');
+    var amount   = params.get('amount');
+    var currency = params.get('currency');
+
+    function showRow(rowId, valId, value) {
+      document.getElementById(valId).textContent = value;
+      document.getElementById(rowId).style.display = 'flex';
+      document.getElementById('bookingDetails').style.display = 'block';
     }
+
+    if (name) {
+      document.getElementById('thankName').textContent = ', ' + name;
+      showRow('rowName', 'valName', name);
+    }
+    if (service) showRow('rowService', 'valService', service);
+    if (appt)    showRow('rowAppt', 'valAppt', appt);
+    if (amount) {
+      var cents = parseInt(amount, 10);
+      if (!isNaN(cents)) {
+        var formatted = (cents / 100).toFixed(2) + ' ' + (currency ? currency.toUpperCase() : '');
+        showRow('rowAmount', 'valAmount', formatted.trim());
+      }
+    }
+    if (ref) showRow('rowRef', 'valRef', ref);
   </script>
 
 </body>
