@@ -113,6 +113,28 @@
       border-color: var(--accent);
       color: var(--accent-hover);
     }
+    .btn-back {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 13px 26px;
+      background: var(--accent);
+      color: var(--white);
+      border: 1.5px solid var(--accent);
+      border-radius: 50px;
+      font-size: 15px;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .btn-back svg { flex-shrink: 0; }
+    .btn-back:hover {
+      background: var(--accent-hover);
+      border-color: var(--accent-hover);
+    }
   </style>
 </head>
 <body>
@@ -179,7 +201,13 @@
           </svg>
           View Receipt &amp; Invoice
         </a>
-        <a href="../../index.html" class="btn btn-primary btn-full">Back to Servcare</a>
+        <a href="../../index.html" class="btn-back">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 12L12 4l9 8"></path>
+            <path d="M5 10v10a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V10"></path>
+          </svg>
+          Back to Servcare
+        </a>
       </div>
     </div>
   </div>
