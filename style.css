@@ -101,43 +101,14 @@ img { display: block; max-width: 100%; }
 /* Logo badge */
 .logo-badge {
   display: flex;
-  flex-direction: column;
   align-items: center;
   flex-shrink: 0;
-  gap: 3px;
 }
 
-.logo-oval {
-  border: 2.5px solid var(--navy);
-  border-radius: 50%;
-  padding: 8px 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  line-height: 1.1;
-  min-width: 110px;
-}
-
-.logo-oval-text {
-  font-size: 17px;
-  font-weight: 900;
-  color: var(--navy);
-  letter-spacing: 1px;
-  font-family: Georgia, serif;
-}
-
-.logo-oval-sub {
-  font-size: 8px;
-  color: var(--navy);
-  letter-spacing: 0.5px;
-  font-weight: 500;
-}
-
-.logo-tagline {
-  font-size: 10px;
-  color: var(--text-light);
-  letter-spacing: 0.3px;
-  font-weight: 500;
+.logo-img {
+  height: 58px;
+  width: auto;
+  display: block;
 }
 
 /* Centered pill nav */
@@ -728,23 +699,16 @@ img { display: block; max-width: 100%; }
 
 /* Footer logo card */
 .footer-logo-card {
-  background: #162040;
+  background: var(--white);
   border: 1px solid rgba(255,255,255,0.1);
   border-radius: 12px;
-  padding: 28px 24px;
+  padding: 20px 24px;
   display: flex;
   align-items: center;
   justify-content: center;
   min-width: 170px;
 }
-.footer-logo-badge { gap: 6px; }
-.footer .logo-oval {
-  border-color: rgba(255,255,255,0.55);
-  padding: 9px 18px;
-}
-.footer .logo-oval-text { color: var(--white); font-size: 16px; }
-.footer .logo-oval-sub { color: rgba(255,255,255,0.55); }
-.footer .logo-tagline { color: #94a3b8; font-size: 10px; }
+.footer-logo-img { height: 64px; }
 
 .footer-col h4 {
   color: var(--white);
